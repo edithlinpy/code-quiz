@@ -3,7 +3,24 @@ let questionsDiv = document.querySelector("#questions");
 let startBtn = document.querySelector("#start");
 let questionTitleEl = document.querySelector("#question-title");
 let choicesDiv = document.querySelector("#choices");
+let timeEl = document.querySelector("#time");
+let allDone = false;
+let timerCount = 50;
 let answer;
+
+function setTimer() {
+    // Sets timer
+    timer = setInterval(function() {
+     timerCount--;
+     timeEl.textContent = timerCount;
+      // Tests if time has run out or user has done all questions
+      if (timerCount === 0 || allDone) {
+        // Clears interval
+        clearInterval(timer);
+        // showScores();
+      }
+    }, 1000);
+  }
 
 start.addEventListener("click", function (event) {
     let questionObj;
@@ -16,6 +33,7 @@ start.addEventListener("click", function (event) {
     startScreenDiv.className = "hide";
     questionsDiv.className = "";
 
+    setTimer(); // start the timer
 
     // add an order lis
     let orderList = document.createElement("ol");
@@ -39,7 +57,6 @@ start.addEventListener("click", function (event) {
             choiceBtn.appendChild(choiceLi);
             orderList.appendChild(choiceBtn);
         }
-        choicesArray = []
     }
 
 });
