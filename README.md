@@ -33,7 +33,7 @@ To view the quiz, [click this link](https://edithlinpy.github.io/code-quiz/) to 
 ![Show all high scores](https://github.com/edithlinpy/code-quiz/blob/main/images/showScores.jpg?raw=true)
 
 :arrow_right: Clear all high scores
-![Clear all high scores](https://github.com/edithlinpy/code-quiz/blob/main/images/showScores.jpg?raw=true)
+![Clear all high scores](https://github.com/edithlinpy/code-quiz/blob/main/images/clearScores.jpg?raw=true)
 
 ## Credits
 
