@@ -5,10 +5,16 @@ let questionTitleEl = document.querySelector("#question-title");
 let choicesDiv = document.querySelector("#choices");
 let timeEl = document.querySelector("#time");
 let li1 = document.querySelector("#btn1");
+let endScreenDiv = document.querySelector("#end-screen");
+let finalScoreSpan = document.querySelector("#final-score");
+let initialsEl = document.querySelector("#initials");
+let submitBtn = document.querySelector("#submit");
 let allDone = false;
 let timerCount = 50;
 let quesToShow = 0;
+let finalScore = 0;
 let answer;
+
 
 // Start the timer
 function setTimer() {
@@ -19,7 +25,7 @@ function setTimer() {
       if (timerCount === 0 || allDone) {
         // Clears interval
         clearInterval(timer);
-        // showScores();
+        showFinalScore();
       }
     }, 1000);
   }
@@ -55,6 +61,14 @@ function showQues(quesToShow){
     // break;
 }
 
+// show the final score in end-screen section 
+function showFinalScore() {
+    questionsDiv.className = "hide"; // hide the question section
+    endScreenDiv.className = ""; // show the end-screen section
+
+    finalScoreSpan.textContent = finalScore; // show final score
+}
+
 // check if user clicks the start button
 // set the timer and show the first question
 start.addEventListener("click", function (event) {
@@ -79,8 +93,11 @@ choicesDiv.addEventListener("click", function (event) {
 
     if (answer === +userChoice) {
         alert("Great! You've got a correct answer!");
+        finalScore = finalScore + 10;
+        console.log("finalScore:"+finalScore);
     } else {
         alert("Sorry, you've got a wrong answer!");
+        timerCount = timerCount-5; // deduct 5 seconds from the timer
     }
     quesToShow++;
     if (quesToShow < quesArray.length) {
@@ -88,6 +105,18 @@ choicesDiv.addEventListener("click", function (event) {
     } else {
         console.log("allDone");
         allDone = true; 
+    }
+});
+
+// store user's initials and score to localStorage
+submit.addEventListener("click", function (event) {
+    userInitials = initialsEl.value.trim();
+    console.log(userInitials);
+    if (userInitials === "") {
+        alert("Please enter your initials.")
+    } else {
+        localStorage.setItem("highscores", userInitials+" "+finalScore);
+        alert("Your initials and score have been saved.");
     }
 });
 
