@@ -4,12 +4,14 @@ let startBtn = document.querySelector("#start");
 let questionTitleEl = document.querySelector("#question-title");
 let choicesDiv = document.querySelector("#choices");
 let timeEl = document.querySelector("#time");
+let li1 = document.querySelector("#btn1");
 let allDone = false;
 let timerCount = 50;
+let quesToShow = 0;
 let answer;
 
+// Start the timer
 function setTimer() {
-    // Sets timer
     timer = setInterval(function() {
      timerCount--;
      timeEl.textContent = timerCount;
@@ -22,41 +24,70 @@ function setTimer() {
     }, 1000);
   }
 
+
+// show one question from quesArray in questions.js
+function showQues(quesToShow){
+
+    // clear all previous contents
+    while (choicesDiv.firstChild) {
+        choicesDiv.removeChild(choicesDiv.firstChild);
+    }
+
+    // add an order list
+    let orderList = document.createElement("ol");
+    choicesDiv.appendChild(orderList);
+
+    // show options for user to choose
+    questionObj = quesArray[quesToShow];
+    questionTitleEl.textContent = questionObj.question;
+    // console.log(questionObj.question);
+    choicesArray = questionObj.options;
+    for (let j=0; j<choicesArray.length; j++) {
+        choiceBtn = document.createElement("button");
+        choiceLi = document.createElement("li");
+        choiceLi.textContent = choicesArray[j];
+        choiceLi.setAttribute("data-num", j);
+        // console.log("choicesArray");
+        choiceBtn.appendChild(choiceLi);
+        orderList.appendChild(choiceBtn);
+    }
+    answer = questionObj.answer;
+    // break;
+}
+
+// check if user clicks the start button
+// set the timer and show the first question
 start.addEventListener("click", function (event) {
     let questionObj;
     let choicesArray;
     let choiceBtn;
     let choiceLi;
-    let option;
-    let answer;
 
-    startScreenDiv.className = "hide";
-    questionsDiv.className = "";
+    startScreenDiv.className = "hide"; // hide the introduction section
+    questionsDiv.className = ""; // show the question section
 
     setTimer(); // start the timer
-
-    // add an order lis
-    let orderList = document.createElement("ol");
-    choicesDiv.appendChild(orderList);
-
-    // get one question from quesArray in questions.js
-    for (let i=0; i<quesArray.length; i++) {
-        questionObj = quesArray[i];
-        questionTitleEl.textContent = questionObj.question;
-        console.log(questionObj.question);
-        choicesArray = questionObj.options;
-        while (orderList.firstChild) {
-            orderList.removeChild(orderList.firstChild);
-        }
-        for (let j=0; j<choicesArray.length; j++) {
-            choiceBtn = document.createElement("button");
-            choiceBtn.id = "btn"+j;
-            choiceLi = document.createElement("li");
-            choiceLi.textContent = choicesArray[j];
-            console.log(choicesArray[j]);
-            choiceBtn.appendChild(choiceLi);
-            orderList.appendChild(choiceBtn);
-        }
-    }
+    showQues(quesToShow); // show the first question
 
 });
+
+// check user's answer and show the corresponding message 
+// show next questions afterwards
+choicesDiv.addEventListener("click", function (event) {
+    let element = event.target;
+    let userChoice = element.getAttribute("data-num");
+
+    if (answer === +userChoice) {
+        alert("Great! You've got a correct answer!");
+    } else {
+        alert("Sorry, you've got a wrong answer!");
+    }
+    quesToShow++;
+    if (quesToShow < quesArray.length) {
+        showQues(quesToShow);
+    } else {
+        console.log("allDone");
+        allDone = true; 
+    }
+});
+
