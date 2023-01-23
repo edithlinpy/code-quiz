@@ -69,6 +69,16 @@ function showFinalScore() {
     finalScoreSpan.textContent = finalScore; // show final score
 }
 
+// get high scores from localStorage
+function getScores() {
+    let storedScores = localStorage.getItem("highscores");
+    if (storedScores === null) {
+        return "";
+    } else {
+        return storedScores+",";
+    }
+}
+
 // check if user clicks the start button
 // set the timer and show the first question
 start.addEventListener("click", function (event) {
@@ -92,7 +102,7 @@ choicesDiv.addEventListener("click", function (event) {
     let userChoice = element.getAttribute("data-num");
 
     if (answer === +userChoice) {
-        alert("Great! You've got a correct answer!");
+        alert("Great! You've got the correct answer!");
         finalScore = finalScore + 10;
         console.log("finalScore:"+finalScore);
     } else {
@@ -115,7 +125,7 @@ submit.addEventListener("click", function (event) {
     if (userInitials === "") {
         alert("Please enter your initials.")
     } else {
-        localStorage.setItem("highscores", userInitials+" "+finalScore);
+        localStorage.setItem("highscores", getScores() + userInitials+"-"+finalScore);
         alert("Your initials and score have been saved.");
     }
 });
