@@ -41,9 +41,9 @@ function showQues(quesToShow){
         choicesDiv.removeChild(choicesDiv.firstChild);
     }
 
-    // add an order list
-    let orderList = document.createElement("ol");
-    choicesDiv.appendChild(orderList);
+    // add an ordered list
+    let orderedList = document.createElement("ol");
+    choicesDiv.appendChild(orderedList);
 
     // show options for user to choose
     questionObj = quesArray[quesToShow];
@@ -57,7 +57,7 @@ function showQues(quesToShow){
         choiceLi.setAttribute("data-num", j);
         // console.log("choicesArray");
         choiceBtn.appendChild(choiceLi);
-        orderList.appendChild(choiceBtn);
+        orderedList.appendChild(choiceBtn);
     }
     answer = questionObj.answer;
     // break;
@@ -103,7 +103,7 @@ choicesDiv.addEventListener("click", function (event) {
     let element = event.target;
     let userChoice;
 
-    if (element.tagName !== "OL") { // do nothing if user clicks on the order list area
+    if (element.tagName !== "OL") { // do nothing if user clicks on the ordered list area
         if (element.tagName === "BUTTON") { // check if user is clicking the button or li element
             userChoice = element.firstChild.getAttribute("data-num");
         } else {
