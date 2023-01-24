@@ -9,6 +9,8 @@ let endScreenDiv = document.querySelector("#end-screen");
 let finalScoreSpan = document.querySelector("#final-score");
 let initialsEl = document.querySelector("#initials");
 let submitBtn = document.querySelector("#submit");
+let correctSound = document.querySelector("#correct");
+let incorrectSound = document.querySelector("#incorrect");
 let allDone = false;
 let timerCount = 50;
 let quesToShow = 0;
@@ -99,22 +101,32 @@ start.addEventListener("click", function (event) {
 // show next questions afterwards
 choicesDiv.addEventListener("click", function (event) {
     let element = event.target;
-    let userChoice = element.getAttribute("data-num");
+    let userChoice;
 
-    if (answer === +userChoice) {
-        alert("Great! You've got the correct answer!");
-        finalScore = finalScore + 10;
-        console.log("finalScore:"+finalScore);
-    } else {
-        alert("Sorry, you've got a wrong answer!");
-        timerCount = timerCount-5; // deduct 5 seconds from the timer
-    }
-    quesToShow++;
-    if (quesToShow < quesArray.length) {
-        showQues(quesToShow);
-    } else {
-        console.log("allDone");
-        allDone = true; 
+    if (element.tagName !== "OL") { // do nothing if user clicks on the order list area
+        if (element.tagName === "BUTTON") { // check if user is clicking the button or li element
+            userChoice = element.firstChild.getAttribute("data-num");
+        } else {
+            userChoice = element.getAttribute("data-num");
+        }
+
+        if (answer === +userChoice) {
+            correctSound.play();
+            alert("Great! You've got the correct answer!");
+            finalScore = finalScore + 10;
+            console.log("finalScore:"+finalScore);
+        } else {
+            incorrectSound.play();
+            alert("Sorry, you've got a wrong answer!");
+            timerCount = timerCount-5; // deduct 5 seconds from the timer
+        }
+        quesToShow++;
+        if (quesToShow < quesArray.length) {
+            showQues(quesToShow);
+        } else {
+            console.log("allDone");
+            allDone = true; 
+        }
     }
 });
 
